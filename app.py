@@ -32,12 +32,11 @@ X = np.linspace(0,2*np.pi,10)
 
 # 2.2. Dérivée
 
-def sin_der(x):
-    return np.vectorize(grad(np.sin(x)))
+sin_der=np.vectorize(grad(np.sin))
 
 # 2.3. Vérification
 print(sin_der(X)==np.cos(X))
-#ça marche pas :'(
+
 
 # 3. Formule de Taylor
 # 3.1. Version 1 : dérivées fournies
@@ -52,5 +51,19 @@ def taylor1(X, derivatives):
     Retourne Y, l'approximation de Taylor sur X pour une fonction
     qui aurait ces dérivées en 0.
     """
+    Y=[]
+    for i in range(len(X)):
+        S=0
+        for k in range(len(derivatives)):
+            S+=derivatives[k]/factorial(k)*X[i]**k
+        Y.append(S)
+    return Y
 
+sinus10 = [0, 1, 0, -1, 0, 1, 0, -1, 0, 1]
+X = np.linspace(-2 * np.pi, 2 * np.pi, 400)
 
+import matplotlib.pyplot as plt
+
+plt.plot(X,taylor1(X,sinus10))
+plt.plot(X,np.sin(X))
+plt.show()
