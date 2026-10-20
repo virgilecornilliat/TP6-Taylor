@@ -92,6 +92,24 @@ assert np.allclose(taylor2(X, np.exp, 2), 1 + X + X**2 / 2)
 Y = np.sin(X)
 Y2 = taylor2(X, np.sin, 10)
 
+
+#1
 plt.plot(X,Y)
 plt.plot(X,Y2)
 plt.show()
+
+#2
+D=X[Y-Y2<=10**(-3)]
+print(len(D)/len(X))
+
+# 71% !!!
+
+#3
+Y3=np.cos(X)
+Y4=taylor2(X,np.cos,0)
+plt.plot(X,Y3)
+plt.plot(X,Y4)
+plt.show()
+
+# 3.3. Une fonction personnalisée
+
