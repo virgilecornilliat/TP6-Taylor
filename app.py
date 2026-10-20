@@ -105,11 +105,27 @@ print(len(D)/len(X))
 # 71% !!!
 
 #3
-Y3=np.cos(X)
-Y4=taylor2(X,np.cos,0)
+Y_cos=np.cos(X)
+Y_cos2=taylor2(X,np.cos,0)
+plt.plot(X,Y_cos)
+plt.plot(X,Y_cos2)
+plt.show()
+
+# 3.3. Une fonction personnalisée
+
+def custom(X):
+    """retourne 2 * sin(X) + cos(X/4)"""
+    return 2*np.sin(X)+np.cos(X/4)
+
+Y3=custom(X)
+Y4=taylor2(X,custom,14)
+
 plt.plot(X,Y3)
 plt.plot(X,Y4)
 plt.show()
 
-# 3.3. Une fonction personnalisée
+D2=X[Y3-Y4<=10**(-3)]
+print(len(D2)/len(X))
+
+# 81% !!! :D
 
