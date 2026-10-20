@@ -78,9 +78,20 @@ def taylor2(X, f, n):
 
     Retourne Y, l'approximation de Taylor de f à l'ordre n sur X.
     """
-    derivatives=np.array([])
+    derivatives=[]
     g=f
     for _ in range(n+1):
         derivatives.append(g(0.0))
         g=grad(g)
     return taylor1(X,derivatives)
+
+# exp à l'ordre 2 : 1 + x + x^2/2
+assert np.allclose(taylor2(X, np.exp, 2), 1 + X + X**2 / 2)
+
+# sinus au degré 10, à comparer avec np.sin(X)
+Y = np.sin(X)
+Y2 = taylor2(X, np.sin, 10)
+
+plt.plot(X,Y)
+plt.plot(X,Y2)
+plt.show()
