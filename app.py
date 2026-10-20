@@ -58,4 +58,4 @@ def custom(X):
     """retourne 2 * sin(X) + cos(X/4)"""
     return 2*np.sin(X)+np.cos(X/4)
 
-
+FONCTIONS={"sinus":np.sin , "cosinus":np.cos , "exponentielle":np.exp , "logarithme":lambda x:np.log(x+1), "custom":custom }
