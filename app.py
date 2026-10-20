@@ -27,3 +27,30 @@ import autograd.numpy as np
 from autograd import grad
 
 # 2.1. Domaine 
+
+X = np.linspace(0,2*np.pi,10)
+
+# 2.2. Dérivée
+
+def sin_der(x):
+    return np.vectorize(grad(np.sin(x)))
+
+# 2.3. Vérification
+print(sin_der(X)==np.cos(X))
+#ça marche pas :'(
+
+# 3. Formule de Taylor
+# 3.1. Version 1 : dérivées fournies
+
+from math import factorial
+
+def taylor1(X, derivatives):
+    """
+    X : le domaine (sous-entendu X[0] < 0 et X[-1] > 0)
+    derivatives : derivatives[n] = f^(n)(0), dérivée n-ième de f en 0
+
+    Retourne Y, l'approximation de Taylor sur X pour une fonction
+    qui aurait ces dérivées en 0.
+    """
+
+
