@@ -59,3 +59,22 @@ def custom(X):
     return 2*np.sin(X)+np.cos(X/4)
 
 FONCTIONS={"sinus":np.sin , "cosinus":np.cos , "exponentielle":np.exp , "logarithme":lambda x:np.log(x+1), "custom":custom }
+
+# 4.3. Widgets dans la barre latérale
+
+with st.sidebar:
+    nom_fonction=st.selectbox("Fonction",list(FONCTIONS))
+    n=st.slider("n",0,10)
+    largeur=st.slider("largeur",2.0,20.0,12.6)
+
+# 4.4. Calcul et tracés
+
+f=FONCTIONS[nom_fonction]
+X=np.linspace(-largeur/2,largeur/2,400)
+Y=f(X)
+Y2=taylor2(X,f,n)
+
+fig, ax = plt.subplots()
+ax.plot(X, Y)
+ax.plot(X,Y2)
+st.pyplot(fig)
