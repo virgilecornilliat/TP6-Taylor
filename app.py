@@ -67,3 +67,20 @@ import matplotlib.pyplot as plt
 plt.plot(X,taylor1(X,sinus10))
 plt.plot(X,np.sin(X))
 plt.show()
+
+# 3.2. Version 2
+
+def taylor2(X, f, n):
+    """
+    X : le domaine
+    f : la fonction (sur scalaire)
+    n : le degré
+
+    Retourne Y, l'approximation de Taylor de f à l'ordre n sur X.
+    """
+    derivatives=np.array([])
+    g=f
+    for _ in range(n+1):
+        derivatives.append(g(0.0))
+        g=grad(g)
+    return taylor1(X,derivatives)
