@@ -51,18 +51,18 @@ def taylor1(X, derivatives):
     Retourne Y, l'approximation de Taylor sur X pour une fonction
     qui aurait ces dérivées en 0.
     """
-    Y=[]
-    for i in range(len(X)):
-        S=0
-        for k in range(len(derivatives)):
-            S+=derivatives[k]/factorial(k)*X[i]**k
-        Y.append(S)
+    Y=np.zeros(len(X))
+    for i,d in enumerate(derivatives):
+        Y=Y+d*X**i/factorial(i)
     return Y
 
 sinus10 = [0, 1, 0, -1, 0, 1, 0, -1, 0, 1]
 X = np.linspace(-2 * np.pi, 2 * np.pi, 400)
 
+import matplotlib
+matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
+
 
 plt.plot(X,taylor1(X,sinus10))
 plt.plot(X,np.sin(X))
