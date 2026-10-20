@@ -4,6 +4,10 @@
 # pour run : écrire dans le terminal : streamlit run app.py
 
 import streamlit as st
+import autograd.numpy as np
+from autograd import grad
+from math import factorial
+import matplotlib.pyplot as plt
 
 st.title("Approximation de Taylor")
 st.header("sous-titre")
@@ -20,28 +24,7 @@ st.latex(r'''P_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(0)}{k!} \, x^k''')
 
 # le script s'exécute plusieurs fois
 
-# 2. Découverte d'autograd
-
-# À LA PLACE de l'habituel 'import numpy as np'
-import autograd.numpy as np
-from autograd import grad
-
-# 2.1. Domaine 
-
-X = np.linspace(0,2*np.pi,10)
-
-# 2.2. Dérivée
-
-sin_der=np.vectorize(grad(np.sin))
-
-# 2.3. Vérification
-print(sin_der(X)==np.cos(X))
-
-
-# 3. Formule de Taylor
-# 3.1. Version 1 : dérivées fournies
-
-from math import factorial
+# 4. L'application : widgets et graphique
 
 def taylor1(X, derivatives):
     """
@@ -55,20 +38,6 @@ def taylor1(X, derivatives):
     for i,d in enumerate(derivatives):
         Y=Y+d*X**i/factorial(i)
     return Y
-
-sinus10 = [0, 1, 0, -1, 0, 1, 0, -1, 0, 1]
-X = np.linspace(-2 * np.pi, 2 * np.pi, 400)
-
-import matplotlib
-matplotlib.use("TkAgg")
-import matplotlib.pyplot as plt
-
-
-plt.plot(X,taylor1(X,sinus10))
-plt.plot(X,np.sin(X))
-plt.show()
-
-# 3.2. Version 2
 
 def taylor2(X, f, n):
     """
@@ -85,48 +54,8 @@ def taylor2(X, f, n):
         g=grad(g)
     return taylor1(X,derivatives)
 
-# exp à l'ordre 2 : 1 + x + x^2/2
-assert np.allclose(taylor2(X, np.exp, 2), 1 + X + X**2 / 2)
-
-# sinus au degré 10, à comparer avec np.sin(X)
-Y = np.sin(X)
-Y2 = taylor2(X, np.sin, 10)
-
-
-#1
-plt.plot(X,Y)
-plt.plot(X,Y2)
-plt.show()
-
-#2
-D=X[Y-Y2<=10**(-3)]
-print(len(D)/len(X))
-
-# 71% !!!
-
-#3
-Y_cos=np.cos(X)
-Y_cos2=taylor2(X,np.cos,0)
-plt.plot(X,Y_cos)
-plt.plot(X,Y_cos2)
-plt.show()
-
-# 3.3. Une fonction personnalisée
-
 def custom(X):
     """retourne 2 * sin(X) + cos(X/4)"""
     return 2*np.sin(X)+np.cos(X/4)
 
-Y3=custom(X)
-Y4=taylor2(X,custom,14)
 
-plt.plot(X,Y3)
-plt.plot(X,Y4)
-plt.show()
-
-D2=X[Y3-Y4<=10**(-3)]
-print(len(D2)/len(X))
-
-# 81% !!! :D
-
-# 4. L'application : widgets et graphique
